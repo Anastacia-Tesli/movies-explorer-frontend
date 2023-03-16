@@ -1,0 +1,33 @@
+.input {
+  width: 100%;
+}
+
+.input__title {
+  margin-bottom: 10px;
+  color: var(--secondary-text-color);
+  text-align: start;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.input__field {
+  width: 100%;
+  height: 46px;
+  padding: 15px;
+  box-sizing: border-box;
+  border: none;
+  background: #f9f9f9;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+}
+
+.input__error {
+  display: block;
+  height: 20px;
+  margin-top: 10px;
+  color: var(--error-color);
+  font-size: 10px;
+  line-height: 12px;
+}

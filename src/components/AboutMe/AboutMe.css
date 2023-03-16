@@ -1,0 +1,138 @@
+.student {
+  padding: 70px 14px;
+  box-sizing: border-box;
+}
+
+.student__section-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.student__section-title {
+  margin: 0 0 60px;
+  padding-bottom: 28px;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--main-text-color);
+  color: var(--main-text-color);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: -0.04em;
+}
+
+.student__section-text {
+  margin: 0;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.student__section-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.student__info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.student__section-accent {
+  margin: 0;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 36px;
+  letter-spacing: -0.04em;
+}
+
+.student__photo {
+  margin: 0 auto;
+  width: 290px;
+  height: 352px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.student__section-text_type_span {
+  font-weight: 500;
+}
+
+.student__platform {
+  margin-top: 42px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+@media screen and (min-width: 650px) {
+  .student__section-flex {
+    flex-direction: row-reverse;
+    gap: 50px;
+  }
+  .student__section-accent {
+    text-align: start;
+  }
+  .student__platform {
+    margin-top: 0;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .student {
+    padding: 90px 50px;
+  }
+  .student__section-title {
+    margin: 0 0 66px;
+    font-size: 22px;
+    line-height: 27px;
+    padding-bottom: 23px;
+  }
+  .student__info {
+    gap: 0;
+  }
+  .student__photo {
+    width: 255px;
+    height: 307px;
+  }
+  .student__section-text {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .student__section-accent {
+    font-size: 40px;
+    line-height: 40px;
+  }
+  .student__section-text_type_span {
+    margin: 16px 0 20px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .student {
+    padding: 110px 70px 101px;
+  }
+  .student__section-title {
+    margin: 0 0 68px;
+  }
+  .student__section-text {
+    font-size: 14px;
+    line-height: 22px;
+  }
+  .student__section-accent {
+    font-size: 50px;
+    line-height: 58px;
+  }
+  .student__section-flex {
+    gap: 270px;
+  }
+  .student__section-text_type_span {
+    margin: 18px 0 26px;
+    font-size: 18px;
+    line-height: 20px;
+  }
+  .student__photo {
+    max-width: 270px;
+  }
+}
