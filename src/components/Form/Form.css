@@ -46,6 +46,7 @@
   font-weight: 500;
   background-color: var(--main-text-color);
   color: var(--main-bg-color);
+  border: none;
   border-radius: 3px;
   cursor: pointer;
   transition: opacity 0.3s ease-in-out;

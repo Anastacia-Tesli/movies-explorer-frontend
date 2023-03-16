@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import ButtonMore from '../UI/ButtonMore/ButtonMore';
 import { cardList, cardSavedList } from '../../utils/constants';
 import './MoviesCardList.css';
 
@@ -30,6 +31,11 @@ function MoviesCardList() {
               </li>
             ))}
       </ul>
+      {location.pathname === '/movies' ? (
+        <div className='movies-list__button'>
+          <ButtonMore />
+        </div>
+      ) : null}
     </section>
   );
 }
