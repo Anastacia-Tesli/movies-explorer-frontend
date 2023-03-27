@@ -24,10 +24,13 @@
 }
 
 .input__error {
-  display: block;
+  display: none;
   height: 20px;
   margin-top: 10px;
   color: var(--error-color);
   font-size: 10px;
   line-height: 12px;
+}
+.input__error_type_active {
+  display: block;
 }

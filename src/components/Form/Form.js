@@ -3,10 +3,16 @@ import Logo from '../UI/Logo/Logo';
 import PageTitle from '../UI/PageTitle/PageTitle';
 import './Form.css';
 
-function Form({ children, greeting, buttonText, question, link, linkName }) {
-  function handleSubmit(e) {
-    e.preventDefault();
-  }
+function Form({
+  handleSubmit,
+  children,
+  greeting,
+  buttonText,
+  question,
+  link,
+  linkName,
+  emptyErrors,
+}) {
   return (
     <form className='form' onSubmit={handleSubmit}>
       <div className='form__content'>
@@ -15,7 +21,7 @@ function Form({ children, greeting, buttonText, question, link, linkName }) {
         <fieldset className='form__inputs'>{children}</fieldset>
       </div>
       <div className='form__options'>
-        <button className='form__button' type='submit'>
+        <button className='form__button' type='submit' disabled={!emptyErrors}>
           {buttonText}
         </button>
         <span className='form__question'>

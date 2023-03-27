@@ -1,20 +1,34 @@
 import './FormInput.css';
 
-function FormInput({ title, type, placeholder, id, value, handleChange }) {
+function FormInput({
+  title,
+  name,
+  type,
+  pattern,
+  placeholder,
+  id,
+  value,
+  handleChange,
+  error,
+  formError,
+}) {
   return (
     <label className='input'>
       <span className='input__title'>{title}</span>
       <input
-        id={id}
         className='input__field'
+        id={id}
+        name={name}
         type={type}
+        pattern={pattern}
         placeholder={placeholder}
         required
-        minLength='6'
+        minLength='3'
         value={value}
         onChange={handleChange}
       />
-      <span className='input__error'></span>
+      <span className='input__error input__error_type_active'>{formError}</span>
+      <span className='input__error'>{error}</span>
     </label>
   );
 }

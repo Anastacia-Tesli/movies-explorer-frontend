@@ -43,6 +43,18 @@
   font-weight: 500;
 }
 
+.profile__error {
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--error-color);
+}
+
+.profile__input {
+  border: none;
+  background-color: transparent;
+  text-align: end;
+}
+
 .profile__buttons {
   display: flex;
   flex-direction: column;

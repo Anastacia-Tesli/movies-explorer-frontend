@@ -60,6 +60,21 @@
   opacity: 0.8;
 }
 
+.search__error {
+  position: absolute;
+  display: none;
+  height: 20px;
+  margin-top: 10px;
+  margin-left: 30px;
+  color: var(--error-color);
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.error_type_active {
+  display: block;
+}
+
 @media screen and (min-width: 768px) {
   .search {
     padding: 80px 30px 110px;
