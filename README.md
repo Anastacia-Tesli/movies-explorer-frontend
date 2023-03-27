@@ -6,7 +6,7 @@ https://github.com/Anastacia-Tesli/movies-explorer-frontend
 
 ### Текущий пулреквест
 
-https://github.com/Anastacia-Tesli/movies-explorer-frontend
+https://github.com/Anastacia-Tesli/movies-explorer-frontend/pull/2
 
 ### Макет
 
