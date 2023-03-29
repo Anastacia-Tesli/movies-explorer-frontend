@@ -4,6 +4,10 @@
 
 https://github.com/Anastacia-Tesli/movies-explorer-frontend
 
+### Домен фронтенда
+
+https://movies-explorer.nomoredomains.work/
+
 ### Текущий пулреквест
 
 https://github.com/Anastacia-Tesli/movies-explorer-frontend/pull/2
