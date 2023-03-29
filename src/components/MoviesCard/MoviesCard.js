@@ -2,12 +2,21 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
 
-function MoviesCard({ movie, addMovie, deleteMovie, title, trailer, image, duration }) {
+function MoviesCard({
+  movie,
+  addMovie,
+  deleteMovie,
+  title,
+  trailer,
+  image,
+  duration,
+  savedMovies,
+}) {
   const location = useLocation();
-  const [liked, setLiked] = useState(localStorage.getItem(title) ? true : false);
+  const currentSavedMovie = savedMovies.find((movie) => movie.nameRU === title);
+  const [liked, setLiked] = useState(currentSavedMovie ? true : false);
 
   function handleMovie(evt) {
-    const itemToDelete = localStorage.getItem(title);
     evt.preventDefault();
     if (location.pathname === '/movies') {
       if (!liked) {
@@ -15,12 +24,10 @@ function MoviesCard({ movie, addMovie, deleteMovie, title, trailer, image, durat
         addMovie(movie);
       } else {
         setLiked(false);
-        localStorage.removeItem(title);
-        deleteMovie(itemToDelete);
+        deleteMovie(currentSavedMovie._id);
       }
     }
     if (location.pathname === '/saved-movies') {
-      localStorage.removeItem(title);
       deleteMovie(movie._id);
     }
   }

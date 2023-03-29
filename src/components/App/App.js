@@ -1,17 +1,15 @@
 import { CurrentUserContext } from '../../contexts/CurrentUserContext.js';
 import { useState, useEffect } from 'react';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import * as auth from '../../utils/AuthApi.js';
 import { mainApi } from '../../utils/MainApi';
 import { moviesApi } from '../../utils/MoviesApi';
 import Content from '../Content/Content';
 import Register from '../pages/Register/Register';
 import Login from '../pages/Login/Login';
-import NotFound from '../pages/NotFound/NotFound';
 import './App.css';
 
 function App() {
-  const location = useLocation();
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -233,7 +231,6 @@ function App() {
             path='/signup'
             element={<Register handleRegister={handleRegister} error={error} />}
           />
-          <Route exact path='/not-found' element={<NotFound />} />
         </Routes>
       </CurrentUserContext.Provider>
     </>

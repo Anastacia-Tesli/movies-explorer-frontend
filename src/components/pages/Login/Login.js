@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import isEmail from 'validator/lib/isEmail';
 import Form from '../../Form/Form';
 import FormInput from '../../UI/FormInput/FormInput';
 import './Login.css';
@@ -11,8 +12,10 @@ function Login({ handleLogin }) {
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
-    if (email.length < 3) {
+    if (e.target.value.length < 3) {
       setEmailError('Не менее трех символов');
+    } else if (!isEmail(e.target.value)) {
+      setEmailError('Некорректный формат почты');
     } else {
       setEmailError('');
     }
@@ -20,7 +23,7 @@ function Login({ handleLogin }) {
 
   function handlePasswordChange(e) {
     setPassword(e.target.value);
-    if (password.length < 3) {
+    if (e.target.value.length < 3) {
       setPasswordError('Не менее трех символов');
     } else {
       setPasswordError('');
@@ -40,7 +43,7 @@ function Login({ handleLogin }) {
         question='Ещё не зарегистрированы?'
         link='/signup'
         linkName='Регистрация'
-        emptyErrors={!emailError && !passwordError}
+        emptyErrors={!emailError && !passwordError && email !== '' && password !== ''}
       >
         <FormInput
           id='email'
@@ -48,8 +51,6 @@ function Login({ handleLogin }) {
           title='E-mail'
           value={email || ''}
           type='email'
-          pattern='/^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я\.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u'
-          placeholder='Введите почту'
           handleChange={handleEmailChange}
           formError={emailError}
         />

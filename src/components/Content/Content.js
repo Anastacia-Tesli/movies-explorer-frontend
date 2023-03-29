@@ -7,6 +7,7 @@ import Main from '../pages/Main/Main';
 import Movies from '../pages/Movies/Movies';
 import SavedMovies from '../pages/SavedMovies/SavedMovies';
 import Profile from '../pages/Profile/Profile';
+import NotFound from '../pages/NotFound/NotFound';
 import './Content.css';
 
 function Content({
@@ -30,12 +31,14 @@ function Content({
   const location = useLocation();
   return (
     <>
-      <Header
-        open={open}
-        onOpen={() => setOpen(true)}
-        onClose={() => setOpen(false)}
-        loggedIn={loggedIn}
-      />
+      {location.pathname === '/not-found' ? null : (
+        <Header
+          open={open}
+          onOpen={() => setOpen(true)}
+          onClose={() => setOpen(false)}
+          loggedIn={loggedIn}
+        />
+      )}
       <Routes>
         <Route exact path='/' element={<Main />} />
         <Route
@@ -94,8 +97,11 @@ function Content({
             )
           }
         />
+        <Route path='/not-found' element={<NotFound />} />
+        <Route path='*' element={<Navigate to='/not-found' />} />
       </Routes>
-      {location.pathname === '/profile' ? null : <Footer />}
+
+      {location.pathname === '/profile' || location.pathname === '/not-found' ? null : <Footer />}
       <Popup open={open} onClick={() => setOpen(false)} loggedIn={loggedIn} />
     </>
   );

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import isEmail from 'validator/lib/isEmail';
 import Form from '../../Form/Form';
 import FormInput from '../../UI/FormInput/FormInput';
 import './Register.css';
@@ -14,7 +15,8 @@ function Register({ handleRegister, error }) {
 
   function handleNameChange(e) {
     setName(e.target.value);
-    if (name.length < 3) {
+    console.log(e.target.value);
+    if (e.target.value.length < 3) {
       setNameError('Не менее трех символов');
     } else {
       setNameError('');
@@ -23,8 +25,10 @@ function Register({ handleRegister, error }) {
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
-    if (email.length < 3) {
+    if (e.target.value.length < 3) {
       setEmailError('Не менее трех символов');
+    } else if (!isEmail(e.target.value)) {
+      setEmailError('Некорректный формат почты');
     } else {
       setEmailError('');
     }
@@ -32,7 +36,7 @@ function Register({ handleRegister, error }) {
 
   function handlePasswordChange(e) {
     setPassword(e.target.value);
-    if (password.length < 3) {
+    if (e.target.value.length < 3) {
       setPasswordError('Не менее трех символов');
     } else {
       setPasswordError('');
@@ -52,7 +56,14 @@ function Register({ handleRegister, error }) {
         question='Уже зарегистрированы?'
         link='/signin'
         linkName='Войти'
-        emptyErrors={!nameError && !emailError && !passwordError}
+        emptyErrors={
+          !nameError &&
+          !emailError &&
+          !passwordError &&
+          name !== '' &&
+          email !== '' &&
+          password !== ''
+        }
       >
         <FormInput
           id='name'
@@ -69,7 +80,6 @@ function Register({ handleRegister, error }) {
           name='email'
           title='E-mail'
           type='email'
-          pattern='/^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я\.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u'
           placeholder='Введите почту'
           value={email || ''}
           handleChange={handleEmailChange}

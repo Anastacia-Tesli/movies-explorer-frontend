@@ -38,7 +38,7 @@
   transition: 0.4s;
 }
 
-.filter__switch::before {
+.filter__switch-element {
   position: absolute;
   content: '';
   height: 16px;
@@ -52,10 +52,11 @@
 }
 
 .filter__checkbox:focus + .filter__switch {
-  box-shadow: 0 0 1px #00000060;
+  border: 1px solid #00000060;
+  box-sizing: border-box;
 }
 
-.filter__checkbox:checked + .filter__switch::before {
+.filter__switch-element_type_active {
   border: 1px solid #fff;
   box-sizing: border-box;
   background-color: #2be080;
