@@ -4,6 +4,7 @@ import PageTitle from '../../UI/PageTitle/PageTitle';
 import './Profile.css';
 
 function Profile({ handleUpdateUser, handleLogout, error }) {
+  const [editMode, setEditMode] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
@@ -33,23 +34,45 @@ function Profile({ handleUpdateUser, handleLogout, error }) {
         <div className='profile__info'>
           <div className='profile__item'>
             <span className='profile__span'>Имя</span>
-            <input className='profile__input' value={name || ''} onChange={handleNameChange} />
+            {editMode ? (
+              <input className='profile__input' value={name || ''} onChange={handleNameChange} />
+            ) : (
+              <span className='profile__input'>{name}</span>
+            )}
           </div>
           <div className='profile__item'>
             <span className='profile__span'>E-mail</span>
-            <input className='profile__input' value={email || ''} onChange={handleEmailChange} />
+            {editMode ? (
+              <input className='profile__input' value={email || ''} onChange={handleEmailChange} />
+            ) : (
+              <span className='profile__input'>{email}</span>
+            )}
           </div>
         </div>
         <span className='profile__error'>{error}</span>
       </div>
-      <div className='profile__buttons'>
-        <button className='profile__button' type='submit'>
-          Редактировать
+      {editMode ? (
+        <button
+          className='profile__save-button'
+          type='submit'
+          disabled={name === user.name || email === user.email}
+          onClick={(e) => {
+            handleSubmit(e);
+            setEditMode(false);
+          }}
+        >
+          Сохранить
         </button>
-        <button className='profile__button' type='button' onClick={() => handleLogout()}>
-          Выйти из аккаунта
-        </button>
-      </div>
+      ) : (
+        <div className='profile__buttons'>
+          <button className='profile__button' type='button' onClick={() => setEditMode(true)}>
+            Редактировать
+          </button>
+          <button className='profile__button' type='button' onClick={() => handleLogout()}>
+            Выйти из аккаунта
+          </button>
+        </div>
+      )}
     </form>
   );
 }
