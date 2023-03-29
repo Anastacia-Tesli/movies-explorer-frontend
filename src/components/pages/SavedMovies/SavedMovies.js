@@ -10,6 +10,8 @@ function SavedMovies({
   savedResultMovies,
   savedRequest,
   setSavedRequest,
+  switched,
+  setSwitched,
 }) {
   const [request, setRequest] = useState('');
 
@@ -21,6 +23,8 @@ function SavedMovies({
         savedResultMovies={savedResultMovies}
         savedRequest={savedRequest}
         setSavedRequest={setSavedRequest}
+        switched={switched}
+        setSwitched={setSwitched}
       />
       <MoviesCardList
         savedMovies={savedMovies}
