@@ -14,6 +14,8 @@ function SearchForm({
   savedRequest,
   setSavedRequest,
   handleMovies,
+  getAllMovies,
+  getSavedMovies,
 }) {
   const location = useLocation();
   const [input, setInput] = useState(
@@ -34,6 +36,7 @@ function SearchForm({
     evt.preventDefault();
 
     if (location.pathname === '/movies') {
+      getAllMovies();
       handleMovies();
       setRequest(input);
       localStorage.setItem('request', input);
@@ -42,6 +45,7 @@ function SearchForm({
       return request;
     }
     if (location.pathname === '/saved-movies') {
+      getSavedMovies();
       setSavedRequest(input);
     }
   }
@@ -55,6 +59,7 @@ function SearchForm({
             placeholder='Фильм'
             required
             value={input || ''}
+            onClick={() => console.log(localStorage)}
             onChange={(e) => setInput(e.target.value)}
           />
           <button className='search__button' type='submit' />

@@ -12,7 +12,7 @@ import './App.css';
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
-
+  const [preloader, setPreloader] = useState(false);
   const [movies, setMovies] = useState([]);
   const [resultMovies, setResultMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
@@ -113,7 +113,8 @@ function App() {
   }
   // Фильмы
 
-  useEffect(() => {
+  function getAllMovies() {
+    setPreloader(true);
     moviesApi
       .getMovies()
       .then((res) => {
@@ -124,8 +125,9 @@ function App() {
         setError(
           'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.',
         );
-      });
-  }, [movies]);
+      })
+      .finally(() => setPreloader(false));
+  }
 
   useEffect(() => {
     const filtered = movies.filter((movie) => movie.nameRU.toLowerCase().includes(request));
@@ -139,7 +141,7 @@ function App() {
     }
   }, [movies, request, switched]);
 
-  useEffect(() => {
+  function getSavedMovies() {
     mainApi
       .getMovies()
       .then((res) => {
@@ -151,7 +153,7 @@ function App() {
           'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.',
         );
       });
-  }, [savedMovies]);
+  }
 
   useEffect(() => {
     const filtered = savedMovies.filter((movie) =>
@@ -187,7 +189,6 @@ function App() {
       .addMovie(movie)
       .then((newMovie) => {
         setSavedMovies([newMovie, ...savedMovies]);
-        localStorage.setItem(newMovie.nameRU, newMovie._id);
         return newMovie;
       })
       .catch((err) => {
@@ -204,6 +205,9 @@ function App() {
             path='*'
             element={
               <Content
+                getAllMovies={getAllMovies}
+                preloader={preloader}
+                getSavedMovies={getSavedMovies}
                 request={request}
                 setRequest={setRequest}
                 savedRequest={savedRequest}

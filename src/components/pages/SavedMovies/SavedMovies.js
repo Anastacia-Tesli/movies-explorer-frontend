@@ -12,12 +12,14 @@ function SavedMovies({
   setSavedRequest,
   switched,
   setSwitched,
+  getSavedMovies,
 }) {
   const [request, setRequest] = useState('');
 
   return (
     <div className='saved-movies'>
       <SearchForm
+        getSavedMovies={getSavedMovies}
         request={request}
         setRequest={setRequest}
         savedResultMovies={savedResultMovies}

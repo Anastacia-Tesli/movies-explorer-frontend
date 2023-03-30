@@ -17,6 +17,8 @@ function Movies({
   savedResultMovies,
   savedRequest,
   setSavedRequest,
+  getAllMovies,
+  preloader,
 }) {
   const searchedMovies = JSON.parse(localStorage.getItem('resultMovies'));
   const [buttonShown, setButtonShown] = useState(false);
@@ -63,6 +65,7 @@ function Movies({
   return (
     <main className='movies'>
       <SearchForm
+        getAllMovies={getAllMovies}
         resultMovies={resultMovies}
         request={request}
         setRequest={setRequest}
@@ -73,9 +76,8 @@ function Movies({
         setSavedRequest={setSavedRequest}
         handleMovies={handleMovies}
       />
-      {!localStorage.getItem('request') ? (
-        <Preloader />
-      ) : (
+      {preloader ? <Preloader /> : null}
+      {searchedMovies ? (
         <MoviesCardList
           handleAddMovie={handleAddMovie}
           handleDeleteMovie={handleDeleteMovie}
@@ -89,7 +91,7 @@ function Movies({
           handleMore={handleMore}
           buttonShown={buttonShown}
         />
-      )}
+      ) : null}
     </main>
   );
 }

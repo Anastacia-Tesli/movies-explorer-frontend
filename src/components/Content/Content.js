@@ -26,6 +26,9 @@ function Content({
   savedResultMovies,
   savedRequest,
   setSavedRequest,
+  getAllMovies,
+  preloader,
+  getSavedMovies,
 }) {
   const [open, setOpen] = useState(false);
   const location = useLocation();
@@ -46,6 +49,8 @@ function Content({
           element={
             loggedIn ? (
               <Movies
+                getAllMovies={getAllMovies}
+                preloader={preloader}
                 error={error}
                 resultMovies={resultMovies}
                 handleAddMovie={handleAddMovie}
@@ -69,6 +74,7 @@ function Content({
           element={
             loggedIn ? (
               <SavedMovies
+                getSavedMovies={getSavedMovies}
                 handleAddMovie={handleAddMovie}
                 handleDeleteMovie={handleDeleteMovie}
                 switched={switched}
