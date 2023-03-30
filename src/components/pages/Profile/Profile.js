@@ -3,10 +3,20 @@ import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
 import PageTitle from '../../UI/PageTitle/PageTitle';
 import './Profile.css';
 
-function Profile({ handleUpdateUser, handleLogout, error }) {
+function Profile({ handleUpdateUser, handleLogout, profileError }) {
   const [editMode, setEditMode] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [disabled, setDisabled] = useState(true);
+
+  useEffect(() => {
+    if (name !== user.name || email !== user.email) {
+      setDisabled(false);
+    }
+    if (name === user.name && email === user.email) {
+      setDisabled(true);
+    }
+  }, [name, email, setDisabled]);
 
   const user = useContext(CurrentUserContext);
   useEffect(() => {
@@ -49,13 +59,13 @@ function Profile({ handleUpdateUser, handleLogout, error }) {
             )}
           </div>
         </div>
-        <span className='profile__error'>{error}</span>
+        <span className='profile__error'>{profileError}</span>
       </div>
       {editMode ? (
         <button
           className='profile__save-button'
           type='submit'
-          disabled={name === user.name || email === user.email}
+          disabled={disabled}
           onClick={(e) => {
             handleSubmit(e);
             setEditMode(false);

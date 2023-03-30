@@ -19,6 +19,7 @@ function App() {
   const [savedResultMovies, setSavedResultMovies] = useState([]);
   const [switched, setSwitched] = useState(false);
   const [error, setError] = useState('');
+  const [profileError, setProfileError] = useState('');
 
   const [request, setRequest] = useState('');
   const [savedRequest, setSavedRequest] = useState('');
@@ -104,10 +105,10 @@ function App() {
       .updateUser(name, email)
       .then((info) => {
         setCurrentUser(info);
-        setError('Данные профиля успешно обновлены!');
+        setProfileError('Данные профиля успешно обновлены!');
       })
       .catch((err) => {
-        setError('Профиль не обновился. Что-то пошло не так...');
+        setProfileError('Профиль не обновился. Что-то пошло не так...');
         console.log(`Ошибка: ${err}`);
       });
   }
@@ -219,6 +220,7 @@ function App() {
                 handleUpdateUser={handleUpdateUser}
                 handleLogout={handleLogout}
                 error={error}
+                profileError={profileError}
                 movies={movies}
                 setMovies={setMovies}
                 savedMovies={savedMovies}

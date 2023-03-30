@@ -15,6 +15,7 @@ function Content({
   handleUpdateUser,
   handleLogout,
   error,
+  profileError,
   handleAddMovie,
   handleDeleteMovie,
   request,
@@ -94,7 +95,7 @@ function Content({
           element={
             loggedIn ? (
               <Profile
-                error={error}
+                profileError={profileError}
                 handleUpdateUser={handleUpdateUser}
                 handleLogout={handleLogout}
               />
