@@ -16,17 +16,41 @@ function Navigation({ style, onClick, loggedIn }) {
       ) : (
         <div className={`navigation__main ${style}`}>
           <div className='navigation__links'>
-            <NavLink onClick={onClick} to='/' className={({ isActive }) => `navigation__link navigation__link-main ${isActive ? 'navigation__link_active' : ''}`}>
+            <NavLink
+              onClick={onClick}
+              to='/'
+              className={({ isActive }) =>
+                `navigation__link navigation__link-main ${
+                  isActive ? 'navigation__link_active' : ''
+                }`
+              }
+            >
               Главная
             </NavLink>
-            <NavLink onClick={onClick} to='/movies' className={({ isActive }) => `navigation__link ${isActive ? 'navigation__link_active' : ''}`}>
+            <NavLink
+              onClick={onClick}
+              to='/movies'
+              className={({ isActive }) =>
+                `navigation__link ${isActive ? 'navigation__link_active' : ''}`
+              }
+            >
               Фильмы
             </NavLink>
-            <NavLink onClick={onClick} to='/saved-movies' className={({ isActive }) => `navigation__link ${isActive ? 'navigation__link_active' : ''}`}>
+            <NavLink
+              onClick={onClick}
+              to='/saved-movies'
+              className={({ isActive }) =>
+                `navigation__link ${isActive ? 'navigation__link_active' : ''}`
+              }
+            >
               Сохранённые фильмы
             </NavLink>
           </div>
-          <NavLink onClick={onClick} to='/profile' className='navigation__link navigation__link-span'>
+          <NavLink
+            onClick={onClick}
+            to='/profile'
+            className='navigation__link navigation__link-span'
+          >
             Аккаунт
           </NavLink>
         </div>

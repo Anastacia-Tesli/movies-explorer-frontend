@@ -19,7 +19,6 @@ function SavedMovies({
   return (
     <div className='saved-movies'>
       <SearchForm
-        getSavedMovies={getSavedMovies}
         request={request}
         setRequest={setRequest}
         savedResultMovies={savedResultMovies}
@@ -29,6 +28,7 @@ function SavedMovies({
         setSwitched={setSwitched}
       />
       <MoviesCardList
+        getSavedMovies={getSavedMovies}
         savedMovies={savedMovies}
         handleAddMovie={handleAddMovie}
         handleDeleteMovie={handleDeleteMovie}

@@ -142,19 +142,20 @@ function App() {
     }
   }, [movies, request, switched]);
 
-  function getSavedMovies() {
-    mainApi
-      .getMovies()
-      .then((res) => {
-        setSavedMovies(res);
-      })
-      .catch((err) => {
-        console.log(`Ошибка ${err}`);
-        setError(
-          'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.',
-        );
-      });
-  }
+  useEffect(() => {
+    if (localStorage.getItem('request'))
+      mainApi
+        .getMovies()
+        .then((res) => {
+          setSavedMovies(res);
+        })
+        .catch((err) => {
+          console.log(`Ошибка ${err}`);
+          setError(
+            'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.',
+          );
+        });
+  }, []);
 
   useEffect(() => {
     const filtered = savedMovies.filter((movie) =>
@@ -174,11 +175,12 @@ function App() {
     mainApi
       .deleteMovie(id)
       .then(() => {
-        setMovies(
+        setSavedMovies(
           savedMovies.filter((item) => {
             return item._id !== id;
           }),
         );
+        return savedMovies;
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
@@ -190,7 +192,7 @@ function App() {
       .addMovie(movie)
       .then((newMovie) => {
         setSavedMovies([newMovie, ...savedMovies]);
-        return newMovie;
+        return savedMovies;
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
@@ -208,7 +210,6 @@ function App() {
               <Content
                 getAllMovies={getAllMovies}
                 preloader={preloader}
-                getSavedMovies={getSavedMovies}
                 request={request}
                 setRequest={setRequest}
                 savedRequest={savedRequest}

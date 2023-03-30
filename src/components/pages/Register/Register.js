@@ -15,7 +15,6 @@ function Register({ handleRegister, error }) {
 
   function handleNameChange(e) {
     setName(e.target.value);
-    console.log(e.target.value);
     if (e.target.value.length < 3) {
       setNameError('Не менее трех символов');
     } else {

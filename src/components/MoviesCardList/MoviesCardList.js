@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import MoviesCard from '../MoviesCard/MoviesCard';
@@ -12,12 +12,51 @@ function MoviesCardList({
   savedMovies,
   savedRequest,
   savedResultMovies,
-  moviesShown,
-  searchedMovies,
-  handleMore,
-  buttonShown,
+  getSavedMovies,
 }) {
   const location = useLocation();
+
+  const searchedMovies = JSON.parse(localStorage.getItem('resultMovies'));
+  const [buttonShown, setButtonShown] = useState(false);
+  const [moviesShown, setMoviesShown] = useState(12);
+  useEffect(() => {
+    if (searchedMovies.length <= moviesShown) {
+      setButtonShown(false);
+    }
+    if (window.innerWidth < 600) {
+      if (searchedMovies.length > 5) {
+        setButtonShown(true);
+        setMoviesShown(5);
+      }
+    } else if (window.innerWidth < 938) {
+      if (searchedMovies.length > 8) {
+        setButtonShown(true);
+        setMoviesShown(8);
+      }
+    } else if (window.innerWidth < 1234) {
+      if (searchedMovies.length > 9) {
+        setButtonShown(true);
+        setMoviesShown(9);
+      }
+    } else if (window.innerWidth >= 1234) {
+      if (searchedMovies.length > 12) {
+        setButtonShown(true);
+        setMoviesShown(12);
+      }
+    }
+  }, []);
+
+  function handleMore() {
+    if (window.innerWidth < 600) {
+      setMoviesShown(moviesShown + 1);
+    } else if (window.innerWidth < 938) {
+      setMoviesShown(moviesShown + 2);
+    } else if (window.innerWidth < 1234) {
+      setMoviesShown(moviesShown + 3);
+    } else if (window.innerWidth >= 1234) {
+      setMoviesShown(moviesShown + 4);
+    }
+  }
 
   return (
     <section className='movies-list'>
@@ -80,9 +119,11 @@ function MoviesCardList({
       </ul>
       {location.pathname === '/movies' ? (
         <div
-          className={`${buttonShown ? 'movies-list__button' : 'movies-list__button_display_none'}`}
+          className={`${buttonShown ? 'movies-list__button' : 'movies-list__button_display_none'} ${
+            error ? 'movies-list__button_display_none' : ''
+          }`}
         >
-          <ButtonMore onClick={handleMore} />
+          <ButtonMore onClick={() => handleMore()} />
         </div>
       ) : null}
     </section>

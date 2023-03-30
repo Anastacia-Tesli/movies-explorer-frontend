@@ -51,6 +51,7 @@ function Content({
             loggedIn ? (
               <Movies
                 getAllMovies={getAllMovies}
+                getSavedMovies={getSavedMovies}
                 preloader={preloader}
                 error={error}
                 resultMovies={resultMovies}
