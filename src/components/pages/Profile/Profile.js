@@ -1,14 +1,16 @@
 import { useState, useContext, useEffect } from 'react';
+import { mainApi } from '../../../utils/MainApi';
 import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
 import PageTitle from '../../UI/PageTitle/PageTitle';
 import './Profile.css';
 
-function Profile({ handleUpdateUser, handleLogout, profileError }) {
+function Profile({ handleLogout, setCurrentUser }) {
   const [editMode, setEditMode] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [profileError, setProfileError] = useState('');
   const [disabled, setDisabled] = useState(true);
-
+  const user = useContext(CurrentUserContext);
   useEffect(() => {
     if (name !== user.name || email !== user.email) {
       setDisabled(false);
@@ -18,7 +20,6 @@ function Profile({ handleUpdateUser, handleLogout, profileError }) {
     }
   }, [name, email, setDisabled]);
 
-  const user = useContext(CurrentUserContext);
   useEffect(() => {
     setName(user ? user.name : '');
     setEmail(user ? user.email : '');
@@ -30,6 +31,18 @@ function Profile({ handleUpdateUser, handleLogout, profileError }) {
     setEmail(e.target.value);
   }
 
+  function handleUpdateUser(name, email) {
+    mainApi
+      .updateUser(name, email)
+      .then((info) => {
+        setCurrentUser(info);
+        setProfileError('Данные профиля успешно обновлены!');
+      })
+      .catch((err) => {
+        setProfileError('Профиль не обновился. Что-то пошло не так...');
+        console.log(`Ошибка: ${err}`);
+      });
+  }
   function handleSubmit(e) {
     e.preventDefault();
     if (name !== user.name || email !== user.email) {

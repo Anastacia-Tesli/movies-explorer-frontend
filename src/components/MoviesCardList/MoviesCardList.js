@@ -49,12 +49,24 @@ function MoviesCardList({
   function handleMore() {
     if (window.innerWidth < 600) {
       setMoviesShown(moviesShown + 1);
+      if (searchedMovies.length <= moviesShown + 1) {
+        setButtonShown(false);
+      }
     } else if (window.innerWidth < 938) {
       setMoviesShown(moviesShown + 2);
+      if (searchedMovies.length <= moviesShown + 2) {
+        setButtonShown(false);
+      }
     } else if (window.innerWidth < 1234) {
       setMoviesShown(moviesShown + 3);
+      if (searchedMovies.length <= moviesShown + 3) {
+        setButtonShown(false);
+      }
     } else if (window.innerWidth >= 1234) {
       setMoviesShown(moviesShown + 4);
+      if (searchedMovies.length <= moviesShown + 4) {
+        setButtonShown(false);
+      }
     }
   }
 
@@ -119,9 +131,7 @@ function MoviesCardList({
       </ul>
       {location.pathname === '/movies' ? (
         <div
-          className={`${buttonShown ? 'movies-list__button' : 'movies-list__button_display_none'} ${
-            error ? 'movies-list__button_display_none' : ''
-          }`}
+          className={`${buttonShown ? 'movies-list__button' : 'movies-list__button_display_none'} `}
         >
           <ButtonMore onClick={() => handleMore()} />
         </div>

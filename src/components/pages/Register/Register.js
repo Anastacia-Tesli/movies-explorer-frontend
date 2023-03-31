@@ -4,7 +4,7 @@ import Form from '../../Form/Form';
 import FormInput from '../../UI/FormInput/FormInput';
 import './Register.css';
 
-function Register({ handleRegister, error }) {
+function Register({ handleRegister, registerError }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -92,7 +92,7 @@ function Register({ handleRegister, error }) {
           placeholder='Введите пароль'
           value={password || ''}
           handleChange={handlePasswordChange}
-          error={error}
+          error={registerError}
           formError={passwordError}
         />
       </Form>

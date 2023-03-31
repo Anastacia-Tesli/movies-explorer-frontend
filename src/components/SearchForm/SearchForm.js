@@ -11,7 +11,6 @@ function SearchForm({
   setSwitched,
   setSavedRequest,
   getAllMovies,
-  getSavedMovies,
 }) {
   const location = useLocation();
   const [input, setInput] = useState(
@@ -30,13 +29,14 @@ function SearchForm({
 
   function handleSubmit(evt) {
     evt.preventDefault();
-
     if (location.pathname === '/movies') {
-      getAllMovies();
       setRequest(input);
-      localStorage.setItem('request', input);
+      localStorage.setItem('request', request);
       localStorage.setItem('resultMovies', JSON.stringify(resultMovies));
+      getAllMovies();
     }
+    console.log(request);
+    console.log(resultMovies);
     if (location.pathname === '/saved-movies') {
       setSavedRequest(input);
     }

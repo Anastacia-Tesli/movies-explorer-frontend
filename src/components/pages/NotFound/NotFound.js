@@ -8,7 +8,9 @@ function NotFound() {
         <span className='not-found__number'>404</span>
         <p className='not-found__text'>Страница не найдена</p>
       </div>
-      <NavLink className='not-found__link'>Назад</NavLink>
+      <NavLink className='not-found__link' to='/movies'>
+        Назад
+      </NavLink>
     </main>
   );
 }

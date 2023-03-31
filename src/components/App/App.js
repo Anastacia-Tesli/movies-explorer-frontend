@@ -1,31 +1,42 @@
 import { CurrentUserContext } from '../../contexts/CurrentUserContext.js';
 import { useState, useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import * as auth from '../../utils/AuthApi.js';
 import { mainApi } from '../../utils/MainApi';
-import { moviesApi } from '../../utils/MoviesApi';
-import Content from '../Content/Content';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute.js';
+import Header from '../Header/Header.js';
+import Movies from '../pages/Movies/Movies';
+import SavedMovies from '../pages/SavedMovies/SavedMovies';
+import Profile from '../pages/Profile/Profile';
+import Main from '../pages/Main/Main.js';
 import Register from '../pages/Register/Register';
 import Login from '../pages/Login/Login';
+import NotFound from '../pages/NotFound/NotFound.js';
+import Footer from '../Footer/Footer.js';
+import Popup from '../UI/Popup/Popup.js';
 import './App.css';
 
 function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
-  const [preloader, setPreloader] = useState(false);
+  const [open, setOpen] = useState(false);
+
   const [movies, setMovies] = useState([]);
   const [resultMovies, setResultMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
   const [savedResultMovies, setSavedResultMovies] = useState([]);
   const [switched, setSwitched] = useState(false);
   const [error, setError] = useState('');
-  const [profileError, setProfileError] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [registerError, setRegisterError] = useState('');
 
   const [request, setRequest] = useState('');
   const [savedRequest, setSavedRequest] = useState('');
 
   // Пользователь
-  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('jwt');
@@ -66,8 +77,12 @@ function App() {
         }
       })
       .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-        setError('Что-то пошло не так!...');
+        console.log(err);
+        if (err.includes(409)) {
+          setRegisterError('Пользователь с таким email уже зарегистрирован');
+        } else if (err.includes(400)) {
+          setRegisterError('Переданы некорректные данные');
+        } else setRegisterError('Что-то пошло не так...');
       });
   }
   function handleLogin(email, password) {
@@ -81,8 +96,10 @@ function App() {
         }
       })
       .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-        setError('Что-то пошло не так...');
+        console.log(err);
+        if (err.includes(401)) {
+          setLoginError('Неправильные почта или пароль');
+        } else setLoginError('Что-то пошло не так...');
       });
   }
 
@@ -100,45 +117,21 @@ function App() {
     setSwitched(false);
   }
 
-  function handleUpdateUser(name, email) {
-    mainApi
-      .updateUser(name, email)
-      .then((info) => {
-        setCurrentUser(info);
-        setProfileError('Данные профиля успешно обновлены!');
-      })
-      .catch((err) => {
-        setProfileError('Профиль не обновился. Что-то пошло не так...');
-        console.log(`Ошибка: ${err}`);
-      });
-  }
   // Фильмы
 
-  function getAllMovies() {
-    setPreloader(true);
-    moviesApi
-      .getMovies()
-      .then((res) => {
-        setMovies(res);
-      })
-      .catch((err) => {
-        console.log(`Ошибка ${err}`);
-        setError(
-          'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.',
-        );
-      })
-      .finally(() => setPreloader(false));
-  }
+  useEffect(() => {
+    if (request) {
+      const filtered = movies.filter((movie) => movie.nameRU.toLowerCase().includes(request));
+      setResultMovies(filtered);
+    }
+  }, [movies, request, setResultMovies]);
 
   useEffect(() => {
-    const filtered = movies.filter((movie) => movie.nameRU.toLowerCase().includes(request));
-    const filteredWithSwitch = movies.filter(
-      (movie) => movie.nameRU.toLowerCase().includes(request) && movie.duration <= 40,
-    );
     if (switched) {
+      const filteredWithSwitch = movies.filter(
+        (movie) => movie.nameRU.toLowerCase().includes(request) && movie.duration <= 40,
+      );
       setResultMovies(filteredWithSwitch);
-    } else {
-      setResultMovies(filtered);
     }
   }, [movies, request, switched]);
 
@@ -202,43 +195,89 @@ function App() {
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
+        {location.pathname === '/' ||
+        location.pathname === '/movies' ||
+        location.pathname === '/saved-movies' ||
+        location.pathname === '/profile' ? (
+          <Header
+            open={open}
+            onOpen={() => setOpen(true)}
+            onClose={() => setOpen(false)}
+            loggedIn={loggedIn}
+          />
+        ) : null}
+
         <Routes>
+          <Route exact path='/' element={<Main />} />
           <Route
             exact
-            path='*'
-            element={
-              <Content
-                getAllMovies={getAllMovies}
-                preloader={preloader}
-                request={request}
-                setRequest={setRequest}
-                savedRequest={savedRequest}
-                setSavedRequest={setSavedRequest}
-                switched={switched}
-                setSwitched={setSwitched}
-                resultMovies={resultMovies}
-                loggedIn={loggedIn}
-                handleUpdateUser={handleUpdateUser}
-                handleLogout={handleLogout}
-                error={error}
-                profileError={profileError}
-                movies={movies}
-                setMovies={setMovies}
-                savedMovies={savedMovies}
-                setSavedMovies={setSavedMovies}
-                savedResultMovies={savedResultMovies}
-                handleAddMovie={handleAddMovie}
-                handleDeleteMovie={handleDeleteMovie}
-              />
-            }
+            path='/signin'
+            element={<Login handleLogin={handleLogin} loginError={loginError} />}
           />
-          <Route exact path='/signin' element={<Login handleLogin={handleLogin} error={error} />} />
           <Route
             exact
             path='/signup'
-            element={<Register handleRegister={handleRegister} error={error} />}
+            element={<Register handleRegister={handleRegister} registerError={registerError} />}
+          />
+          <Route path='/not-found' element={<NotFound />} />
+          <Route path='*' element={<Navigate to='/not-found' />} />
+          <Route
+            exact
+            path='/movies'
+            element={
+              <ProtectedRoute loggedIn={loggedIn}>
+                <Movies
+                  setMovies={setMovies}
+                  resultMovies={resultMovies}
+                  handleAddMovie={handleAddMovie}
+                  handleDeleteMovie={handleDeleteMovie}
+                  request={request}
+                  setRequest={setRequest}
+                  switched={switched}
+                  setSwitched={setSwitched}
+                  savedMovies={savedMovies}
+                  savedResultMovies={savedResultMovies}
+                  savedRequest={savedRequest}
+                  setSavedRequest={setSavedRequest}
+                />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            exact
+            path='/saved-movies'
+            element={
+              <ProtectedRoute loggedIn={loggedIn}>
+                <SavedMovies
+                  handleAddMovie={handleAddMovie}
+                  handleDeleteMovie={handleDeleteMovie}
+                  switched={switched}
+                  setSwitched={setSwitched}
+                  savedMovies={savedMovies}
+                  savedResultMovies={savedResultMovies}
+                  savedRequest={savedRequest}
+                  setSavedRequest={setSavedRequest}
+                />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            exact
+            path='/profile'
+            element={
+              <ProtectedRoute loggedIn={loggedIn}>
+                <Profile setCurrentUser={setCurrentUser} handleLogout={handleLogout} />
+              </ProtectedRoute>
+            }
           />
         </Routes>
+
+        {location.pathname === '/' ||
+        location.pathname === '/movies' ||
+        location.pathname === '/saved-movies' ? (
+          <Footer />
+        ) : null}
+        <Popup open={open} onClick={() => setOpen(false)} loggedIn={loggedIn} />
       </CurrentUserContext.Provider>
     </>
   );

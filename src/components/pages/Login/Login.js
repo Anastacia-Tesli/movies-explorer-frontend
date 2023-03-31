@@ -4,7 +4,7 @@ import Form from '../../Form/Form';
 import FormInput from '../../UI/FormInput/FormInput';
 import './Login.css';
 
-function Login({ handleLogin }) {
+function Login({ handleLogin, loginError }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -63,6 +63,7 @@ function Login({ handleLogin }) {
           placeholder='Введите пароль'
           handleChange={handlePasswordChange}
           formError={passwordError}
+          error={loginError}
         />
       </Form>
     </main>

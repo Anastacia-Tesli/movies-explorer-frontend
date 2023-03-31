@@ -28,7 +28,7 @@ function FormInput({
         onChange={handleChange}
       />
       <span className='input__error input__error_type_active'>{formError}</span>
-      <span className='input__error'>{error}</span>
+      <span className='input__error input__error_type_active'>{error}</span>
     </label>
   );
 }
