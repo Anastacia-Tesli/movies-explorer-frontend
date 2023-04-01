@@ -1,8 +1,8 @@
 import { Navigate } from 'react-router-dom';
 
-function ProtectedRoute({ loggedIn, children }) {
-  if (!loggedIn) {
-    <Navigate to='/' replace />;
+function ProtectedRoute({ children }) {
+  if (!localStorage.getItem('jwt')) {
+    return <Navigate to='/' />;
   }
   return children;
 }

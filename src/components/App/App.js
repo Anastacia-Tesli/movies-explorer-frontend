@@ -205,7 +205,7 @@ function App() {
             exact
             path='/movies'
             element={
-              <ProtectedRoute loggedIn={loggedIn}>
+              <ProtectedRoute>
                 <Movies
                   movies={movies}
                   setMovies={setMovies}
@@ -223,7 +223,7 @@ function App() {
             exact
             path='/saved-movies'
             element={
-              <ProtectedRoute loggedIn={loggedIn}>
+              <ProtectedRoute>
                 <SavedMovies
                   error={error}
                   handleAddMovie={handleAddMovie}
@@ -242,7 +242,7 @@ function App() {
             exact
             path='/profile'
             element={
-              <ProtectedRoute loggedIn={loggedIn}>
+              <ProtectedRoute>
                 <Profile setCurrentUser={setCurrentUser} handleLogout={handleLogout} />
               </ProtectedRoute>
             }
