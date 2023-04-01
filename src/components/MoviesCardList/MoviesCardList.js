@@ -19,28 +19,30 @@ function MoviesCardList({
   const [buttonShown, setButtonShown] = useState(false);
   const [moviesShown, setMoviesShown] = useState(12);
   useEffect(() => {
-    if (searchedMovies.length <= moviesShown || searchedMovies.length === 0) {
-      setButtonShown(false);
-    }
-    if (window.innerWidth < 600) {
-      if (searchedMovies.length > 5) {
-        setButtonShown(true);
-        setMoviesShown(5);
+    if (searchedMovies) {
+      if (searchedMovies.length <= moviesShown || searchedMovies.length === 0) {
+        setButtonShown(false);
       }
-    } else if (window.innerWidth < 938) {
-      if (searchedMovies.length > 8) {
-        setButtonShown(true);
-        setMoviesShown(8);
-      }
-    } else if (window.innerWidth < 1234) {
-      if (searchedMovies.length > 9) {
-        setButtonShown(true);
-        setMoviesShown(9);
-      }
-    } else if (window.innerWidth >= 1234) {
-      if (searchedMovies.length > 12) {
-        setButtonShown(true);
-        setMoviesShown(12);
+      if (window.innerWidth < 600) {
+        if (searchedMovies.length > 5) {
+          setButtonShown(true);
+          setMoviesShown(5);
+        }
+      } else if (window.innerWidth < 938) {
+        if (searchedMovies.length > 8) {
+          setButtonShown(true);
+          setMoviesShown(8);
+        }
+      } else if (window.innerWidth < 1234) {
+        if (searchedMovies.length > 9) {
+          setButtonShown(true);
+          setMoviesShown(9);
+        }
+      } else if (window.innerWidth >= 1234) {
+        if (searchedMovies.length > 12) {
+          setButtonShown(true);
+          setMoviesShown(12);
+        }
       }
     }
   }, []);
