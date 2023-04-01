@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './FilterCheckbox.css';
 
-function FilterCheckbox({ switched, setSwitched }) {
+function FilterCheckbox({ switched, setSwitched, clickSwitch }) {
   const location = useLocation();
   const storedSwitch = localStorage.getItem('switch');
 
@@ -15,12 +15,15 @@ function FilterCheckbox({ switched, setSwitched }) {
   function handleSwitch(evt) {
     evt.preventDefault();
     if (location.pathname === '/movies') {
+      const action = clickSwitch();
       if (!switched) {
         setSwitched(true);
         localStorage.setItem('switch', true);
+        action.filterWithSwitch();
       } else {
         setSwitched(false);
         localStorage.removeItem('switch');
+        action.filter();
       }
     }
     if (location.pathname === '/saved-movies') {

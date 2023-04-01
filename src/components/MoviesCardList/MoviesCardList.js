@@ -12,7 +12,6 @@ function MoviesCardList({
   savedMovies,
   savedRequest,
   savedResultMovies,
-  getSavedMovies,
 }) {
   const location = useLocation();
 
@@ -20,7 +19,7 @@ function MoviesCardList({
   const [buttonShown, setButtonShown] = useState(false);
   const [moviesShown, setMoviesShown] = useState(12);
   useEffect(() => {
-    if (searchedMovies.length <= moviesShown) {
+    if (searchedMovies.length <= moviesShown || searchedMovies.length === 0) {
       setButtonShown(false);
     }
     if (window.innerWidth < 600) {
@@ -73,7 +72,7 @@ function MoviesCardList({
   return (
     <section className='movies-list'>
       <ul className='movies-list__items'>
-        {location.pathname === '/movies' && error ? (
+        {error ? (
           <p className='movies-list__error'>{error}</p>
         ) : location.pathname === '/movies' && searchedMovies.length > 0 ? (
           searchedMovies.slice(0, moviesShown).map((card) => {
@@ -131,7 +130,9 @@ function MoviesCardList({
       </ul>
       {location.pathname === '/movies' ? (
         <div
-          className={`${buttonShown ? 'movies-list__button' : 'movies-list__button_display_none'} `}
+          className={`${
+            buttonShown && !error ? 'movies-list__button' : 'movies-list__button_display_none'
+          } `}
         >
           <ButtonMore onClick={() => handleMore()} />
         </div>

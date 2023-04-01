@@ -4,13 +4,12 @@ import FilterCheckbox from '../UI/FilterCheckbox/FilterCheckbox';
 import './SearchForm.css';
 
 function SearchForm({
-  resultMovies,
-  request,
-  setRequest,
   switched,
   setSwitched,
+  setRequest,
   setSavedRequest,
-  getAllMovies,
+  handleSubmit,
+  clickSwitch,
 }) {
   const location = useLocation();
   const [input, setInput] = useState(
@@ -27,38 +26,34 @@ function SearchForm({
     }
   }
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    if (location.pathname === '/movies') {
-      setRequest(input);
-      localStorage.setItem('request', request);
-      localStorage.setItem('resultMovies', JSON.stringify(resultMovies));
-      getAllMovies();
-    }
-    console.log(request);
-    console.log(resultMovies);
-    if (location.pathname === '/saved-movies') {
-      setSavedRequest(input);
-    }
+  function handleChange(e) {
+    setInput(e.target.value);
   }
+
   return (
     <section className='search'>
       <div className='search__inputs'>
-        <form className='search__field' onSubmit={handleSubmit}>
+        <form
+          className='search__field'
+          onSubmit={(evt) => {
+            evt.preventDefault();
+            handleSubmit(input);
+          }}
+        >
           <div className='search__icon' />
           <input
             className='search__form'
             placeholder='Фильм'
             required
             value={input || ''}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={handleChange}
           />
           <button className='search__button' type='submit' onClick={handleError} />
           <span className={`search__error ${error ? 'error_type_active' : ''}`}>
             Нужно ввести ключевое слово
           </span>
         </form>
-        <FilterCheckbox switched={switched} setSwitched={setSwitched} />
+        <FilterCheckbox switched={switched} setSwitched={setSwitched} clickSwitch={clickSwitch} />
       </div>
     </section>
   );

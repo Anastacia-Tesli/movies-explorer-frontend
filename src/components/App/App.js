@@ -25,7 +25,6 @@ function App() {
   const [open, setOpen] = useState(false);
 
   const [movies, setMovies] = useState([]);
-  const [resultMovies, setResultMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
   const [savedResultMovies, setSavedResultMovies] = useState([]);
   const [switched, setSwitched] = useState(false);
@@ -33,7 +32,6 @@ function App() {
   const [loginError, setLoginError] = useState('');
   const [registerError, setRegisterError] = useState('');
 
-  const [request, setRequest] = useState('');
   const [savedRequest, setSavedRequest] = useState('');
 
   // Пользователь
@@ -106,34 +104,16 @@ function App() {
   function handleLogout() {
     setLoggedIn(false);
     localStorage.removeItem('resultMovies');
-    localStorage.removeItem('savedMovies');
     localStorage.removeItem('request');
     localStorage.removeItem('switch');
     localStorage.removeItem('jwt');
     setCurrentUser({});
     setMovies([]);
-    setResultMovies([]);
     setSavedMovies([]);
     setSwitched(false);
   }
 
   // Фильмы
-
-  useEffect(() => {
-    if (request) {
-      const filtered = movies.filter((movie) => movie.nameRU.toLowerCase().includes(request));
-      setResultMovies(filtered);
-    }
-  }, [movies, request, setResultMovies]);
-
-  useEffect(() => {
-    if (switched) {
-      const filteredWithSwitch = movies.filter(
-        (movie) => movie.nameRU.toLowerCase().includes(request) && movie.duration <= 40,
-      );
-      setResultMovies(filteredWithSwitch);
-    }
-  }, [movies, request, switched]);
 
   useEffect(() => {
     if (localStorage.getItem('request'))
@@ -143,7 +123,7 @@ function App() {
           setSavedMovies(res);
         })
         .catch((err) => {
-          console.log(`Ошибка ${err}`);
+          console.log(err);
           setError(
             'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.',
           );
@@ -176,7 +156,7 @@ function App() {
         return savedMovies;
       })
       .catch((err) => {
-        console.log(`Ошибка: ${err}`);
+        console.log(err);
       });
   }
 
@@ -184,11 +164,11 @@ function App() {
     mainApi
       .addMovie(movie)
       .then((newMovie) => {
-        setSavedMovies([newMovie, ...savedMovies]);
+        setSavedMovies([...savedMovies, newMovie]);
         return savedMovies;
       })
       .catch((err) => {
-        console.log(`Ошибка: ${err}`);
+        console.log(err);
       });
   }
 
@@ -227,14 +207,10 @@ function App() {
             element={
               <ProtectedRoute loggedIn={loggedIn}>
                 <Movies
+                  movies={movies}
                   setMovies={setMovies}
-                  resultMovies={resultMovies}
                   handleAddMovie={handleAddMovie}
                   handleDeleteMovie={handleDeleteMovie}
-                  request={request}
-                  setRequest={setRequest}
-                  switched={switched}
-                  setSwitched={setSwitched}
                   savedMovies={savedMovies}
                   savedResultMovies={savedResultMovies}
                   savedRequest={savedRequest}
@@ -249,6 +225,7 @@ function App() {
             element={
               <ProtectedRoute loggedIn={loggedIn}>
                 <SavedMovies
+                  error={error}
                   handleAddMovie={handleAddMovie}
                   handleDeleteMovie={handleDeleteMovie}
                   switched={switched}

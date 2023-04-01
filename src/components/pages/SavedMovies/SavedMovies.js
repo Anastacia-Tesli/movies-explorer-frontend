@@ -15,10 +15,13 @@ function SavedMovies({
   getSavedMovies,
 }) {
   const [request, setRequest] = useState('');
-
+  function handleSubmitSavedMovies(input) {
+    setSavedRequest(input);
+  }
   return (
     <div className='saved-movies'>
       <SearchForm
+        handleSubmit={handleSubmitSavedMovies}
         request={request}
         setRequest={setRequest}
         savedResultMovies={savedResultMovies}
