@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { moviesApi } from '../../../utils/MoviesApi';
 import SearchForm from '../../SearchForm/SearchForm';
 import MoviesCardList from '../../MoviesCardList/MoviesCardList';
@@ -41,7 +41,7 @@ function Movies({
   function filterMovies() {
     const allMovies = JSON.parse(localStorage.getItem('allMovies'));
     const request = localStorage.getItem('request');
-    function filter() {
+    function filterDefault() {
       const filtered = allMovies.filter((movie) => movie.nameRU.toLowerCase().includes(request));
       localStorage.setItem('resultMovies', JSON.stringify(filtered));
     }
@@ -53,20 +53,18 @@ function Movies({
     }
 
     if (!isSwitched) {
-      filter();
+      filterDefault();
     } else {
       filterWithSwitch();
     }
 
-    return { filter: filter, filterWithSwitch: filterWithSwitch };
+    return { filter: filterDefault, filterWithSwitch: filterWithSwitch };
   }
 
   function handleSubmitMovies(input) {
     localStorage.setItem('request', input);
     getMovies();
     filterMovies();
-    console.log(localStorage.getItem('request'));
-    console.log(localStorage.getItem('resultMovies'));
   }
 
   return (

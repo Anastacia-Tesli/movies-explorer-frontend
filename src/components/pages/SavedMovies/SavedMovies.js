@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchForm from '../../SearchForm/SearchForm';
 import MoviesCardList from '../../MoviesCardList/MoviesCardList';
 import './SavedMovies.css';
@@ -8,16 +8,29 @@ function SavedMovies({
   handleDeleteMovie,
   savedMovies,
   savedResultMovies,
-  savedRequest,
-  setSavedRequest,
   switched,
   setSwitched,
   getSavedMovies,
+  setSavedResultMovies,
 }) {
   const [request, setRequest] = useState('');
+  const [savedRequest, setSavedRequest] = useState('');
   function handleSubmitSavedMovies(input) {
     setSavedRequest(input);
   }
+  useEffect(() => {
+    const filtered = savedMovies.filter((movie) =>
+      movie.nameRU.toLowerCase().includes(savedRequest),
+    );
+    const filteredWithSwitch = savedMovies.filter(
+      (movie) => movie.nameRU.toLowerCase().includes(savedRequest) && movie.duration <= 40,
+    );
+    if (switched) {
+      setSavedResultMovies(filteredWithSwitch);
+    } else {
+      setSavedResultMovies(filtered);
+    }
+  }, [savedMovies, savedRequest, switched]);
   return (
     <div className='saved-movies'>
       <SearchForm

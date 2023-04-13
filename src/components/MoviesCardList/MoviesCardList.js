@@ -22,8 +22,7 @@ function MoviesCardList({
     if (searchedMovies) {
       if (searchedMovies.length <= moviesShown || searchedMovies.length === 0) {
         setButtonShown(false);
-      }
-      if (window.innerWidth < 600) {
+      } else if (window.innerWidth < 600) {
         if (searchedMovies.length > 5) {
           setButtonShown(true);
           setMoviesShown(5);
@@ -96,7 +95,9 @@ function MoviesCardList({
           })
         ) : location.pathname === '/movies' && searchedMovies.length === 0 ? (
           <p className='movies-list__error'>Ничего не найдено</p>
-        ) : location.pathname === '/saved-movies' && savedRequest ? (
+        ) : location.pathname === '/saved-movies' &&
+          savedRequest &&
+          savedResultMovies.length > 0 ? (
           savedResultMovies.map((card) => (
             <li className='movies-list__item'>
               <MoviesCard
@@ -112,6 +113,10 @@ function MoviesCardList({
               />
             </li>
           ))
+        ) : location.pathname === '/saved-movies' &&
+          savedRequest &&
+          savedResultMovies.length === 0 ? (
+          <p className='movies-list__error'>Ничего не найдено</p>
         ) : location.pathname === '/saved-movies' && !savedRequest ? (
           savedMovies.map((card) => (
             <li className='movies-list__item'>

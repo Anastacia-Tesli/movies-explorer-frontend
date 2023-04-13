@@ -47,6 +47,10 @@ function SearchForm({
             required
             value={input || ''}
             onChange={handleChange}
+            //onClick={() => {
+            //  localStorage.removeItem('request');
+            //  localStorage.removeItem('resultMovies');
+            //}}
           />
           <button className='search__button' type='submit' onClick={handleError} />
           <span className={`search__error ${error ? 'error_type_active' : ''}`}>

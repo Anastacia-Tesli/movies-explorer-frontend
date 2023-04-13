@@ -32,8 +32,6 @@ function App() {
   const [loginError, setLoginError] = useState('');
   const [registerError, setRegisterError] = useState('');
 
-  const [savedRequest, setSavedRequest] = useState('');
-
   // Пользователь
 
   useEffect(() => {
@@ -130,20 +128,6 @@ function App() {
         });
   }, []);
 
-  useEffect(() => {
-    const filtered = savedMovies.filter((movie) =>
-      movie.nameRU.toLowerCase().includes(savedRequest),
-    );
-    const filteredWithSwitch = savedMovies.filter(
-      (movie) => movie.nameRU.toLowerCase().includes(savedRequest) && movie.duration <= 40,
-    );
-    if (switched) {
-      setSavedResultMovies(filteredWithSwitch);
-    } else {
-      setSavedResultMovies(filtered);
-    }
-  }, [savedMovies, savedRequest, switched]);
-
   function handleDeleteMovie(id) {
     mainApi
       .deleteMovie(id)
@@ -213,8 +197,6 @@ function App() {
                   handleDeleteMovie={handleDeleteMovie}
                   savedMovies={savedMovies}
                   savedResultMovies={savedResultMovies}
-                  savedRequest={savedRequest}
-                  setSavedRequest={setSavedRequest}
                 />
               </ProtectedRoute>
             }
@@ -232,8 +214,7 @@ function App() {
                   setSwitched={setSwitched}
                   savedMovies={savedMovies}
                   savedResultMovies={savedResultMovies}
-                  savedRequest={savedRequest}
-                  setSavedRequest={setSavedRequest}
+                  setSavedResultMovies={setSavedResultMovies}
                 />
               </ProtectedRoute>
             }
