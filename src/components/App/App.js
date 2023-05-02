@@ -102,6 +102,7 @@ function App() {
   function handleLogout() {
     setLoggedIn(false);
     localStorage.removeItem('jwt');
+    localStorage.removeItem('allMovies');
     setCurrentUser({});
     setMovies([]);
     setSwitched(false);

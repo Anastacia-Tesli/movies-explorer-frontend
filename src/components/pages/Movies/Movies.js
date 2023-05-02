@@ -30,6 +30,9 @@ function Movies({
         setMovies(res);
         localStorage.setItem('allMovies', JSON.stringify(res));
       })
+      .then(() => {
+        filterMovies();
+      })
       .catch((err) => {
         console.log(`Ошибка ${err}`);
         setError(
@@ -70,7 +73,6 @@ function Movies({
   function handleSubmitMovies(input) {
     localStorage.setItem('request', input);
     getMovies();
-    filterMovies();
   }
 
   return (
