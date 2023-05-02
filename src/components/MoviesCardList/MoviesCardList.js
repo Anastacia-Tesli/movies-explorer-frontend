@@ -3,6 +3,19 @@ import { useLocation } from 'react-router-dom';
 
 import MoviesCard from '../MoviesCard/MoviesCard';
 import ButtonMore from '../UI/ButtonMore/ButtonMore';
+import {
+  MOVIES_SHOWN_MOBILE,
+  MOVIES_SHOWN_TABLET,
+  MOVIES_SHOWN_DESK,
+  MOVIES_SHOWN_FULLSCREEN,
+  TABLET_WIDTH,
+  DESK_WIDTH,
+  FULLSCREEN_WIDTH,
+  MOVIES_MORE_MOBILE,
+  MOVIES_MORE_TABLET,
+  MOVIES_MORE_DESK,
+  MOVIES_MORE_FULLSCREEN,
+} from '../../utils/constants';
 import './MoviesCardList.css';
 
 function MoviesCardList({
@@ -14,57 +27,60 @@ function MoviesCardList({
   savedResultMovies,
 }) {
   const location = useLocation();
-
   const searchedMovies = JSON.parse(localStorage.getItem('resultMovies'));
   const [buttonShown, setButtonShown] = useState(false);
-  const [moviesShown, setMoviesShown] = useState(12);
+  const [moviesShown, setMoviesShown] = useState(MOVIES_SHOWN_FULLSCREEN);
+
   useEffect(() => {
-    if (searchedMovies) {
+    if (location.pathname === '/movies') {
+      if (window.innerWidth < TABLET_WIDTH) {
+        setMoviesShown(MOVIES_SHOWN_MOBILE);
+      } else if (window.innerWidth < DESK_WIDTH) {
+        setMoviesShown(MOVIES_SHOWN_TABLET);
+      } else if (window.innerWidth < FULLSCREEN_WIDTH) {
+        setMoviesShown(MOVIES_SHOWN_DESK);
+      } else if (window.innerWidth >= FULLSCREEN_WIDTH) {
+        setMoviesShown(MOVIES_SHOWN_FULLSCREEN);
+      }
+      if (searchedMovies.length > moviesShown) {
+        setButtonShown(true);
+      }
       if (searchedMovies.length <= moviesShown || searchedMovies.length === 0) {
         setButtonShown(false);
-      } else if (window.innerWidth < 600) {
-        if (searchedMovies.length > 5) {
-          setButtonShown(true);
-          setMoviesShown(5);
-        }
-      } else if (window.innerWidth < 938) {
-        if (searchedMovies.length > 8) {
-          setButtonShown(true);
-          setMoviesShown(8);
-        }
-      } else if (window.innerWidth < 1234) {
-        if (searchedMovies.length > 9) {
-          setButtonShown(true);
-          setMoviesShown(9);
-        }
-      } else if (window.innerWidth >= 1234) {
-        if (searchedMovies.length > 12) {
-          setButtonShown(true);
-          setMoviesShown(12);
-        }
       }
     }
   }, []);
 
+  useEffect(() => {
+    if (location.pathname === '/movies') {
+      if (searchedMovies.length > moviesShown) {
+        setButtonShown(true);
+      }
+      if (searchedMovies.length <= moviesShown || searchedMovies.length === 0) {
+        setButtonShown(false);
+      }
+    }
+  }, [moviesShown, searchedMovies]);
+
   function handleMore() {
-    if (window.innerWidth < 600) {
-      setMoviesShown(moviesShown + 1);
-      if (searchedMovies.length <= moviesShown + 1) {
+    if (window.innerWidth < TABLET_WIDTH) {
+      setMoviesShown(moviesShown + MOVIES_MORE_MOBILE);
+      if (searchedMovies.length <= moviesShown + MOVIES_MORE_MOBILE) {
         setButtonShown(false);
       }
-    } else if (window.innerWidth < 938) {
-      setMoviesShown(moviesShown + 2);
-      if (searchedMovies.length <= moviesShown + 2) {
+    } else if (window.innerWidth < DESK_WIDTH) {
+      setMoviesShown(moviesShown + MOVIES_MORE_TABLET);
+      if (searchedMovies.length <= moviesShown + MOVIES_MORE_TABLET) {
         setButtonShown(false);
       }
-    } else if (window.innerWidth < 1234) {
-      setMoviesShown(moviesShown + 3);
-      if (searchedMovies.length <= moviesShown + 3) {
+    } else if (window.innerWidth < FULLSCREEN_WIDTH) {
+      setMoviesShown(moviesShown + MOVIES_MORE_DESK);
+      if (searchedMovies.length <= moviesShown + MOVIES_MORE_DESK) {
         setButtonShown(false);
       }
-    } else if (window.innerWidth >= 1234) {
-      setMoviesShown(moviesShown + 4);
-      if (searchedMovies.length <= moviesShown + 4) {
+    } else if (window.innerWidth >= FULLSCREEN_WIDTH) {
+      setMoviesShown(moviesShown + MOVIES_MORE_FULLSCREEN);
+      if (searchedMovies.length <= moviesShown + MOVIES_MORE_FULLSCREEN) {
         setButtonShown(false);
       }
     }

@@ -1,7 +1,13 @@
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import isEmail from 'validator/lib/isEmail';
 import Form from '../../Form/Form';
 import FormInput from '../../UI/FormInput/FormInput';
+import {
+  MINIMAL_SYMBOLS,
+  MINIMAL_SYMBOLS_ERROR,
+  INCORRECT_EMAIL_ERROR,
+} from '../../../utils/constants';
 import './Register.css';
 
 function Register({ handleRegister, registerError }) {
@@ -15,8 +21,8 @@ function Register({ handleRegister, registerError }) {
 
   function handleNameChange(e) {
     setName(e.target.value);
-    if (e.target.value.length < 3) {
-      setNameError('Не менее трех символов');
+    if (e.target.value.length < MINIMAL_SYMBOLS) {
+      setNameError(MINIMAL_SYMBOLS_ERROR);
     } else {
       setNameError('');
     }
@@ -24,10 +30,10 @@ function Register({ handleRegister, registerError }) {
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
-    if (e.target.value.length < 3) {
-      setEmailError('Не менее трех символов');
+    if (e.target.value.length < MINIMAL_SYMBOLS) {
+      setEmailError(MINIMAL_SYMBOLS_ERROR);
     } else if (!isEmail(e.target.value)) {
-      setEmailError('Некорректный формат почты');
+      setEmailError(INCORRECT_EMAIL_ERROR);
     } else {
       setEmailError('');
     }
@@ -35,8 +41,8 @@ function Register({ handleRegister, registerError }) {
 
   function handlePasswordChange(e) {
     setPassword(e.target.value);
-    if (e.target.value.length < 3) {
-      setPasswordError('Не менее трех символов');
+    if (e.target.value.length < MINIMAL_SYMBOLS) {
+      setPasswordError(MINIMAL_SYMBOLS_ERROR);
     } else {
       setPasswordError('');
     }
@@ -45,6 +51,9 @@ function Register({ handleRegister, registerError }) {
   function handleRegisterSubmit(e) {
     e.preventDefault();
     handleRegister(name, email, password);
+  }
+  if (localStorage.getItem('jwt')) {
+    return <Navigate to='/' />;
   }
   return (
     <div className='register'>

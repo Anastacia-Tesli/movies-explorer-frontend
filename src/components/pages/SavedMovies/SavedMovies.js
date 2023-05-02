@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import SearchForm from '../../SearchForm/SearchForm';
 import MoviesCardList from '../../MoviesCardList/MoviesCardList';
+import { SHORT_MOVIE_DURATION } from '../../../utils/constants';
 import './SavedMovies.css';
 
 function SavedMovies({
@@ -23,7 +24,8 @@ function SavedMovies({
       movie.nameRU.toLowerCase().includes(savedRequest),
     );
     const filteredWithSwitch = savedMovies.filter(
-      (movie) => movie.nameRU.toLowerCase().includes(savedRequest) && movie.duration <= 40,
+      (movie) =>
+        movie.nameRU.toLowerCase().includes(savedRequest) && movie.duration <= SHORT_MOVIE_DURATION,
     );
     if (switched) {
       setSavedResultMovies(filteredWithSwitch);

@@ -3,6 +3,7 @@ import { moviesApi } from '../../../utils/MoviesApi';
 import SearchForm from '../../SearchForm/SearchForm';
 import MoviesCardList from '../../MoviesCardList/MoviesCardList';
 import Preloader from '../../UI/Preloader/Preloader';
+import { SHORT_MOVIE_DURATION } from '../../../utils/constants';
 import './Movies.css';
 
 function Movies({
@@ -47,7 +48,8 @@ function Movies({
     }
     function filterWithSwitch() {
       const filteredWithSwitch = allMovies.filter(
-        (movie) => movie.nameRU.toLowerCase().includes(request) && movie.duration <= 40,
+        (movie) =>
+          movie.nameRU.toLowerCase().includes(request) && movie.duration <= SHORT_MOVIE_DURATION,
       );
       localStorage.setItem('resultMovies', JSON.stringify(filteredWithSwitch));
     }
@@ -60,6 +62,10 @@ function Movies({
 
     return { filter: filterDefault, filterWithSwitch: filterWithSwitch };
   }
+
+  const searchedMovies = JSON.parse(localStorage.getItem('resultMovies'));
+  const [buttonShown, setButtonShown] = useState(false);
+  const [moviesShown, setMoviesShown] = useState();
 
   function handleSubmitMovies(input) {
     localStorage.setItem('request', input);
@@ -89,6 +95,11 @@ function Movies({
           savedRequest={savedRequest}
           setSavedRequest={setSavedRequest}
           getSavedMovies={getSavedMovies}
+          buttonShown={buttonShown}
+          setButtonShown={setButtonShown}
+          moviesShown={moviesShown}
+          setMoviesShown={setMoviesShown}
+          searchedMovies={searchedMovies}
         />
       ) : null}
     </main>

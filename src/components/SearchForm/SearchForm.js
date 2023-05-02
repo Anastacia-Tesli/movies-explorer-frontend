@@ -3,14 +3,7 @@ import { useLocation } from 'react-router-dom';
 import FilterCheckbox from '../UI/FilterCheckbox/FilterCheckbox';
 import './SearchForm.css';
 
-function SearchForm({
-  switched,
-  setSwitched,
-  setRequest,
-  setSavedRequest,
-  handleSubmit,
-  clickSwitch,
-}) {
+function SearchForm({ switched, setSwitched, handleSubmit, clickSwitch }) {
   const location = useLocation();
   const [input, setInput] = useState(
     location.pathname === '/movies' && localStorage.getItem('request')

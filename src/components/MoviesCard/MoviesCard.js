@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
 
@@ -14,7 +14,13 @@ function MoviesCard({
 }) {
   const location = useLocation();
   const currentSavedMovie = savedMovies.find((movie) => movie.nameRU === title);
-  const [liked, setLiked] = useState(currentSavedMovie ? true : false);
+  const [liked, setLiked] = useState(false);
+
+  useEffect(() => {
+    if (location.pathname === '/movies' && currentSavedMovie) {
+      setLiked(true);
+    }
+  }, [currentSavedMovie]);
 
   function handleMovie(evt) {
     evt.preventDefault();
@@ -52,7 +58,7 @@ function MoviesCard({
         </div>
         <span className='movie__duration'>
           {duration > 59 ? `${Math.floor(duration / 60)} ч` : null}{' '}
-          {duration > 59 ? `${duration - Math.floor(duration / 60) * 60} ` : duration}м
+          {duration > 59 ? `${duration - Math.floor(duration / 60) * 60} м` : `${duration} м`}
         </span>
       </div>
     </div>

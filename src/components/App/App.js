@@ -101,20 +101,17 @@ function App() {
 
   function handleLogout() {
     setLoggedIn(false);
-    localStorage.removeItem('resultMovies');
-    localStorage.removeItem('request');
-    localStorage.removeItem('switch');
     localStorage.removeItem('jwt');
     setCurrentUser({});
     setMovies([]);
-    setSavedMovies([]);
     setSwitched(false);
   }
 
   // Фильмы
 
   useEffect(() => {
-    if (localStorage.getItem('request'))
+    const request = localStorage.getItem('request');
+    if (request)
       mainApi
         .getMovies()
         .then((res) => {
