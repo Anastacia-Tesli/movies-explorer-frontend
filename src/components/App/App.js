@@ -108,6 +108,9 @@ function App() {
     localStorage.removeItem('allMovies');
     setCurrentUser({});
     setMovies([]);
+    setSavedMovies([]);
+    setSavedResultMovies([]);
+    setError('');
     setSwitched(false);
   }
 
