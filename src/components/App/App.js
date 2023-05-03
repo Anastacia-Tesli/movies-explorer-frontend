@@ -117,8 +117,7 @@ function App() {
   // Фильмы
 
   useEffect(() => {
-    const request = localStorage.getItem('request');
-    if (request)
+    if (loggedIn)
       mainApi
         .getMovies()
         .then((res) => {
@@ -130,7 +129,7 @@ function App() {
             'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.',
           );
         });
-  }, []);
+  }, [loggedIn]);
 
   function handleDeleteMovie(id) {
     mainApi
