@@ -10,6 +10,8 @@ function Profile({ handleLogout, setCurrentUser }) {
   const [email, setEmail] = useState('');
   const [profileError, setProfileError] = useState('');
   const [disabled, setDisabled] = useState(true);
+  const [inactive, setInactive] = useState(false);
+
   const user = useContext(CurrentUserContext);
   useEffect(() => {
     if (name !== user.name || email !== user.email) {
@@ -31,7 +33,8 @@ function Profile({ handleLogout, setCurrentUser }) {
     setEmail(e.target.value);
   }
 
-  function handleUpdateUser(name, email) {
+  function handleUpdateUser(name, email, setInactive) {
+    setInactive(true);
     mainApi
       .updateUser(name, email)
       .then((info) => {
@@ -41,12 +44,15 @@ function Profile({ handleLogout, setCurrentUser }) {
       .catch((err) => {
         setProfileError('Профиль не обновился. Что-то пошло не так...');
         console.log(`Ошибка: ${err}`);
+      })
+      .finally(() => {
+        setInactive(false);
       });
   }
   function handleSubmit(e) {
     e.preventDefault();
     if (name !== user.name || email !== user.email) {
-      handleUpdateUser(name, email);
+      handleUpdateUser(name, email, setInactive);
     }
   }
 

@@ -64,7 +64,8 @@ function App() {
     }
   }, [loggedIn]);
 
-  function handleRegister(name, email, password) {
+  function handleRegister(name, email, password, setInactive) {
+    setInactive(true);
     auth
       .register(name, email, password)
       .then((res) => {
@@ -79,9 +80,13 @@ function App() {
         } else if (err.includes(400)) {
           setRegisterError('Переданы некорректные данные');
         } else setRegisterError('Что-то пошло не так...');
+      })
+      .finally(() => {
+        setInactive(false);
       });
   }
-  function handleLogin(email, password) {
+  function handleLogin(email, password, setInactive) {
+    setInactive(true);
     auth
       .authorize(email, password)
       .then((data) => {
@@ -96,6 +101,9 @@ function App() {
         if (err.includes(401)) {
           setLoginError('Неправильные почта или пароль');
         } else setLoginError('Что-то пошло не так...');
+      })
+      .finally(() => {
+        setInactive(false);
       });
   }
 

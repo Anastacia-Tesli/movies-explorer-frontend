@@ -11,6 +11,7 @@ function FormInput({
   handleChange,
   error,
   formError,
+  disabled,
 }) {
   return (
     <label className='input'>
@@ -20,6 +21,7 @@ function FormInput({
         id={id}
         name={name}
         type={type}
+        disabled={disabled}
         pattern={pattern}
         placeholder={placeholder}
         required

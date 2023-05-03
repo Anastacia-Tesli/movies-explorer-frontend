@@ -15,6 +15,7 @@ function Login({ handleLogin, loginError }) {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [inactive, setInactive] = useState(false);
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
@@ -38,7 +39,7 @@ function Login({ handleLogin, loginError }) {
 
   function handleLoginSubmit(e) {
     e.preventDefault();
-    handleLogin(email, password);
+    handleLogin(email, password, setInactive);
   }
   if (localStorage.getItem('jwt')) {
     return <Navigate to='/' />;
@@ -58,10 +59,12 @@ function Login({ handleLogin, loginError }) {
           id='email'
           name='email'
           title='E-mail'
+          placeholder='Введите почту'
           value={email || ''}
           type='email'
           handleChange={handleEmailChange}
           formError={emailError}
+          disabled={inactive}
         />
         <FormInput
           id='password'
@@ -73,6 +76,7 @@ function Login({ handleLogin, loginError }) {
           handleChange={handlePasswordChange}
           formError={passwordError}
           error={loginError}
+          disabled={inactive}
         />
       </Form>
     </main>

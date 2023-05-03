@@ -18,6 +18,7 @@ function Register({ handleRegister, registerError }) {
   const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [inactive, setInactive] = useState(false);
 
   function handleNameChange(e) {
     setName(e.target.value);
@@ -50,7 +51,7 @@ function Register({ handleRegister, registerError }) {
 
   function handleRegisterSubmit(e) {
     e.preventDefault();
-    handleRegister(name, email, password);
+    handleRegister(name, email, password, setInactive);
   }
   if (localStorage.getItem('jwt')) {
     return <Navigate to='/' />;
@@ -82,6 +83,7 @@ function Register({ handleRegister, registerError }) {
           value={name || ''}
           handleChange={handleNameChange}
           formError={nameError}
+          disabled={inactive}
         />
         <FormInput
           id='email'
@@ -92,6 +94,7 @@ function Register({ handleRegister, registerError }) {
           value={email || ''}
           handleChange={handleEmailChange}
           formError={emailError}
+          disabled={inactive}
         />
         <FormInput
           id='password'
@@ -103,6 +106,7 @@ function Register({ handleRegister, registerError }) {
           handleChange={handlePasswordChange}
           error={registerError}
           formError={passwordError}
+          disabled={inactive}
         />
       </Form>
     </div>
