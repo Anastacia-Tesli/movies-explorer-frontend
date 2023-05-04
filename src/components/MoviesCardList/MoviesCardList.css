@@ -21,9 +21,20 @@
 }
 
 .movies-list__button {
+  display: block;
   width: 100%;
   display: flex;
   justify-content: center;
+}
+.movies-list__button_display_none {
+  display: none;
+}
+
+.movies-list__error {
+  text-align: center;
+  color: var(--error-color);
+  font-size: 16px;
+  line-height: 16px;
 }
 
 @media screen and (min-width: 768px) {

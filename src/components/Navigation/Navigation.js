@@ -1,11 +1,10 @@
-import { useLocation, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './Navigation.css';
 
-function Navigation({ style, onClick }) {
-  const location = useLocation();
+function Navigation({ style, onClick, loggedIn }) {
   return (
     <nav className='navigation'>
-      {location.pathname === '/' ? (
+      {!loggedIn ? (
         <div className='navigation__bar'>
           <NavLink to='/signup' className='navigation__link'>
             Регистрация

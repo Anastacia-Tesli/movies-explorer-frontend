@@ -2,11 +2,13 @@
   max-width: 339px;
   min-width: 267px;
   min-height: 230px;
+  height: 100%;
   margin: 0 auto;
 }
 
 .movie__image {
   width: 100%;
+  height: calc(100% * 0.56);
 }
 
 .movie__item {

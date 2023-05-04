@@ -56,6 +56,10 @@
   opacity: 0.8;
 }
 
+.form__button:disabled {
+  opacity: 0.6;
+}
+
 .form__question {
   text-align: center;
   color: var(--secondary-text-color);
